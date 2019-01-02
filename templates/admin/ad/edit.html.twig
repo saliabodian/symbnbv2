@@ -1,0 +1,138 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modification de l'annonce {{ad.id}}{% endblock %}
+
+{# Déclaration de l'emplacement du form_theme ici il s'agit de ce même formulaire on utilise alors _self #}
+{% form_theme form _self %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="my-5">Modification de l'annonce {{ad.title}}</h1>
+            {{ form_start(form)}}
+        <div class="row">
+            <div class="col">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h4 class="card-title">Corriger l'annonce ?</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ form_widget(form)}}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Enregistrez les modifications !
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-light">
+                    <div class="card-header">
+                        <h4 class="card-title">Les réservations</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <th>Id</th>
+                                <th>Voyageur</th>
+                                <th>Date de réservation</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                {% for booking in ad.bookings %}
+                                    <tr>
+                                        <td>{{ booking.id }}</td>
+                                        <td>{{ booking.booker.fullname }}</td>
+                                        <td>{{ booking.createdAt | date('d/m/Y H:i') }}</td>
+                                        <td>
+                                            <a href="#" class="btn btn-primary">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card bg-light mt-5">
+                    <div class="card-header">
+                        <h4 class="card-title">Les commentaires</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <th>Id</th>
+                                <th>Voyageur</th>
+                                <th>Note</th>
+                                <th>Commentaire</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                {% for comment in ad.comments %}
+                                    <tr>
+                                        <td>{{ comment.id }}</td>
+                                        <td>{{ comment.author.fullname }}</td>
+                                        <td>{{ comment.rating }}</td>
+                                        <td>{{ comment.content }}</td>
+                                        <td>
+                                            <a href="#" class="btn btn-primary">
+                                                <i class="fas fa-pen"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{form_end(form)}}
+    </div>
+{% endblock %}
+
+{# Ajout de thémes spécifiques pour afficher un formulaire imbriqué#}
+
+{% block _ad_images_widget %}
+    {# A ce niveau le form représente que le champ de la collection d'mage #}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _ad_images_entry_row %}
+    {# Surcharge de la méthoe d'affichage une row #}
+    
+    <div id="block_{{id}}">
+        {{ form_widget(form) }}
+    </div>    
+{% endblock %}
+
+{% block _ad_images_entry_widget %}
+    <div class="row align-items-center mb-3">
+        <div class="col-4">
+            {# value est une variable disponible pour chaque image qui contient l'url l'id et d'autres attributs pour le voir il faut faire un dump() #}
+            {% if value %}
+                <img src="{{ value.url }}" alt="" class="img-fluid">
+            {% endif %}
+        </div>
+        <div class="col-6">
+            {{ form_row(form.caption) }}
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{id}}">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>  
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            // Récupére tous les éléments qui ont data-action="delete"
+            $('[data-action ="delete"]').on('click', function(){
+                const target = this.dataset.target ;
+                $(target).remove();
+            });
+        });
+    </script>
+{% endblock %}

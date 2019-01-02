@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Page non trouvée ! {% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1> Oups ! La page que vous recherchez n'existe pas !</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos pariatur placeat optio corrupti velit assumenda blanditiis beatae veniam asperiores qui quia, cumque delectus maiores inventore? Reiciendis minus consequuntur sunt cum.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto nam iusto beatae quam! Fuga, consequuntur? Deleniti, nostrum esse dicta eveniet quos temporibus nemo est quisquam nam totam fugiat accusantium in?</p>
+        <a href="{{ path('homepage')}}" class="btn btn-primary mb-3">Retour à la page d'accueil</a>
+        <a href="{{path('ads_index')}}" class="btn btn-success mb-3">Nos annonces</a>
+    </div>
+
+{% endblock %}

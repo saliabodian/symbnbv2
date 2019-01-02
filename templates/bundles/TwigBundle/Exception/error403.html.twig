@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Page non trouvée ! {% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1> Oups ! Tentative de defacing. Nous t'avons à l'oeil !</h1>
+        <div class="alert alert-danger">
+            <p>Vous n'avez pas le droit d'accéder à ces ressources !</p>
+        </div>
+        <a href="{{ path('homepage')}}" class="btn btn-primary mb-3">Retour à la page d'accueil</a>
+        <a href="{{path('ads_index')}}" class="btn btn-success mb-3">Nos annonces</a>
+    </div>
+
+{% endblock %}
